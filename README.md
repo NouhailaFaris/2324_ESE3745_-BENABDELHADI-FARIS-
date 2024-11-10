@@ -1,4 +1,4 @@
-# 2324_ESE3745_-BENABDELHADI-FARIS-
+# 2324_ESE3745_-BENABDELHADI-FARIS
 
 # ENSEA - Projet Onduleur Triphasé didactique, 60V, 10A
 
