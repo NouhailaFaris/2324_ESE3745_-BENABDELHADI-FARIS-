@@ -268,3 +268,67 @@ void assert_failed(uint8_t *file, uint32_t line)
 ![WhatsApp Image 2024-11-10 at 23 30 16 (4)](https://github.com/user-attachments/assets/9d382d9c-046c-437c-bd73-f88c91812ace)
 
 ![WhatsApp Image 2024-11-10 at 23 30 16 (3)](https://github.com/user-attachments/assets/7bf31acd-527b-4dc9-bfb2-1a637a3d927e)
+
+
+## TP2
+
+**Define Max Speed and UART Command Handling:**
+
+```c
+#define MAX_SPEED 1000  // Define the maximum allowed speed value
+#include <stdlib.h>     // For atoi function to convert strings to integers
+```
+
+**Implement Speed Control Function:**
+
+```c
+void ProcessSpeedCommand(char *cmd) {
+    // Check if command starts with "speed "
+    if (strncmp(cmd, "speed ", 6) == 0) {
+        // Convert the speed value after "speed " to an integer
+        int speedValue = atoi(&cmd[6]);
+
+        // Limit the speed value to the maximum allowed speed
+        if (speedValue > MAX_SPEED) {
+            speedValue = MAX_SPEED;
+        }
+
+        // Set the PWM duty cycle according to speedValue
+        uint32_t pulseValue = (uint32_t)((speedValue * __HAL_TIM_GET_AUTORELOAD(&htim1)) / MAX_SPEED);
+        __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pulseValue);
+        __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, pulseValue);
+
+        // Send acknowledgment over UART
+        snprintf((char *)uartTxBuffer, sizeof(uartTxBuffer), "Speed set to %d\r\n", speedValue);
+        HAL_UART_Transmit(&huart2, uartTxBuffer, strlen((char *)uartTxBuffer), HAL_MAX_DELAY);
+    } else {
+        // Send error message if command is incorrect
+        snprintf((char *)uartTxBuffer, sizeof(uartTxBuffer), "Invalid command\r\n");
+        HAL_UART_Transmit(&huart2, uartTxBuffer, strlen((char *)uartTxBuffer), HAL_MAX_DELAY);
+    }
+}
+
+while (1) {
+    Shell_Loop();
+
+    if (uartRxReceived) {
+        uartRxReceived = 0;  // Reset the flag after processing
+        ProcessSpeedCommand((char *)uartRxBuffer);  // Process the received command
+        HAL_UART_Receive_IT(&huart2, uartRxBuffer, UART_RX_BUFFER_SIZE);  // Re-enable UART receive interrupt
+    }
+}
+```
+**Add UART Receive Callback Function**
+
+```c
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+    if (huart->Instance == USART2) {  // Assuming we are using USART2
+        uartRxReceived = 1;  // Set flag to indicate data was received
+    }
+}
+```
+### Premiers tests
+
+
+
+
