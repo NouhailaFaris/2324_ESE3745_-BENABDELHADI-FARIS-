@@ -28,7 +28,7 @@
 ### Affichage sur l'oscilloscope;
 
 ![tek00005](https://github.com/user-attachments/assets/7f763cc3-21b2-4325-bcd3-d457672c579a)
-![image](https://github.com/user-attachments/assets/c81dcf9d-0823-4eab-9fe1-2cb77fabdc8f)
+
 
 **temp mort**
 
@@ -40,6 +40,7 @@
 
 **Implement Speed Control Function:**
 
+![image](https://github.com/user-attachments/assets/c81dcf9d-0823-4eab-9fe1-2cb77fabdc8f)
 
 ### Premiers tests
 
