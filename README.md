@@ -60,3 +60,23 @@ Calcul temp_mort:
 - Commande stop : permet de désactiver la génération des PWM.
 - Commande speed XXXX : permet de définir le rapport cyclique à XXXX/PWM_MAX, mais afin de réduire l'appel à courant, vous devez établir une montée progressive à cette vitesse en quelques secondes. Vous pouvez effectuer une rampe entre la valeur actuelle et la valeur 4-4-cible avec un incrément bien réfléchi de la PWM à un intervalle de temps régulier. Par la suite votre asservissement fera cela tout seul.
 
+**Implémenter la lecture ADC en Polling**
+```c
+uint32_t Read_Current(void) {
+    uint32_t adcValue = 0;
+    HAL_ADC_Start(&hadc1);
+    if (HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY) == HAL_OK) {
+        adcValue = HAL_ADC_GetValue(&hadc1);
+    }
+    HAL_ADC_Stop(&hadc1);
+    return adcValue;
+}
+float Convert_To_Current(uint32_t adcValue) {
+    float voltage = (adcValue * 3.3f) / 4095; // Conversion en tension
+    float current = (voltage - 1.65f) / 0.066f; // Exemple pour un capteur à effet Hall (sensibilité : 66 mV/A)
+    return current;
+}
+```
+
+
+
