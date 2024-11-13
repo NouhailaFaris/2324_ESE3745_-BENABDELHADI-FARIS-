@@ -62,6 +62,8 @@ Calcul temp_mort:
 
 ![image](https://github.com/user-attachments/assets/a806a30b-4816-44bc-984b-0dcc3df06941)
 
+sensibilité = 50mV/A
+convertisseur sur 12 bits
 
 **Implémenter la lecture ADC en Polling**
 ```c
