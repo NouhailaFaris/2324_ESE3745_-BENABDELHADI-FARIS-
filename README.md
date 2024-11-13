@@ -27,7 +27,8 @@
 ![WhatsApp Image 2024-11-10 at 23 30 16 (4)](https://github.com/user-attachments/assets/9d382d9c-046c-437c-bd73-f88c91812ace)
 
 
-On peut Remarquer que notre PWM à 20KHZ et de taille de 12 bits puisque notre ARR est de 4249 
+**On peut Remarquer que notre PWM à 20KHZ et de taille de 12 bits puisque notre ARR est de 4249** 
+
 ![image](https://github.com/user-attachments/assets/c81dcf9d-0823-4eab-9fe1-2cb77fabdc8f)
 
 
