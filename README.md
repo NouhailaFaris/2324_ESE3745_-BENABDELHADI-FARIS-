@@ -22,6 +22,8 @@
 
 
 ### Affichage sur l'oscilloscope;
+![tek00004](https://github.com/user-attachments/assets/9f549d6f-244b-4358-a0dd-10497bd9d37a)
+
 ![WhatsApp Image 2024-11-10 at 23 30 16 (4)](https://github.com/user-attachments/assets/9d382d9c-046c-437c-bd73-f88c91812ace)
 
 ![WhatsApp Image 2024-11-10 at 23 30 16 (3)](https://github.com/user-attachments/assets/7bf31acd-527b-4dc9-bfb2-1a637a3d927e)
