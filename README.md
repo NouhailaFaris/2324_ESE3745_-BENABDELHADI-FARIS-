@@ -25,6 +25,13 @@
 
 ![image](https://github.com/user-attachments/assets/d7c1c816-c5dd-4e8c-b8aa-2943b5575536)
 
+Temp mort:
+
+1/170MHZ = 5.88ns = 1TIC
+
+100ns/5.88 ns = 17 TIC 
+
+
 ### Affichage sur l'oscilloscope;
 
 ![tek00005](https://github.com/user-attachments/assets/7f763cc3-21b2-4325-bcd3-d457672c579a)
