@@ -110,26 +110,6 @@ int main(void)
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 	Shell_Init();
-	uint32_t pulseValue1 = (htim1.Instance->CCR1);
-	uint32_t pulseValue2 = (htim1.Instance->CCR2);
-
-	/* Configuration des PWM sur TIM1 Channel 1 et 2 */
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pulseValue1);
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, pulseValue2);
-
-	/* Démarrage des PWM */
-	if (HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1) != HAL_OK) {
-		Error_Handler();
-	}
-	if (HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1) != HAL_OK) {
-		Error_Handler();
-	}
-	if (HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2) != HAL_OK) {
-		Error_Handler();
-	}
-	if (HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2) != HAL_OK) {
-		Error_Handler();
-	}
 
 
   /* USER CODE END 2 */
