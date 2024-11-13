@@ -60,6 +60,9 @@ Calcul temp_mort:
 - Commande stop : permet de désactiver la génération des PWM.
 - Commande speed XXXX : permet de définir le rapport cyclique à XXXX/PWM_MAX, mais afin de réduire l'appel à courant, vous devez établir une montée progressive à cette vitesse en quelques secondes. Vous pouvez effectuer une rampe entre la valeur actuelle et la valeur 4-4-cible avec un incrément bien réfléchi de la PWM à un intervalle de temps régulier. Par la suite votre asservissement fera cela tout seul.
 
+![image](https://github.com/user-attachments/assets/a806a30b-4816-44bc-984b-0dcc3df06941)
+
+
 **Implémenter la lecture ADC en Polling**
 ```c
 uint32_t Read_Current(void) {
