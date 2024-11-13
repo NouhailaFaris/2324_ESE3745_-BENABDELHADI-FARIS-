@@ -22,10 +22,19 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
+#include <string.h>
+#include <stdio.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "mylibs/shell.h"
+#define MAX_SPEED 1000  // la valeure maximum du speed
+#include <stdlib.h>
+/* USER CODE BEGIN PV */
+
+
+/* USER CODE END PV */
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -121,6 +130,8 @@ int main(void)
 	if (HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2) != HAL_OK) {
 		Error_Handler();
 	}
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -128,6 +139,7 @@ int main(void)
 	while (1)
 	{
 		Shell_Loop();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
