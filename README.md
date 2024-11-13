@@ -54,6 +54,10 @@ Calcul temp_mort:
 **Rapport cyclique de 50%:**
 **Rapport cyclique de 70%:**
 
+![image](https://github.com/user-attachments/assets/47902732-debd-49c1-93e5-7f705805d88d)
+![image](https://github.com/user-attachments/assets/6d21f4cc-4933-4f6f-938e-cdb3d77f81e8)
+
+
 ## TP2
 
 - Commande start : permet de fixer le rapport cyclique à 50% (vitesse nulle) et d'activer la génération des pwm (HAL_TIM_PWM_Start et HAL_TIMEx_PWMN_Start),
