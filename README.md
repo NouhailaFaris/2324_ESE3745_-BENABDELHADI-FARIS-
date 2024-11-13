@@ -27,6 +27,9 @@
 ![WhatsApp Image 2024-11-10 at 23 30 16 (3)](https://github.com/user-attachments/assets/7bf31acd-527b-4dc9-bfb2-1a637a3d927e)
 
 
+On peut Remarquer que notre PWM à 20KHZ et de taille de 12 bits puisque notre ARR est de 4249 
+
+
 **Define Max Speed and UART Command Handling:**
 
 ```c
