@@ -27,7 +27,7 @@
 
 ### Affichage sur l'oscilloscope;
 
-
+![tek00005](https://github.com/user-attachments/assets/7f763cc3-21b2-4325-bcd3-d457672c579a)
 ![image](https://github.com/user-attachments/assets/c81dcf9d-0823-4eab-9fe1-2cb77fabdc8f)
 
 **temp mort**
@@ -38,16 +38,8 @@
 **On peut Remarquer que notre PWM à 20KHZ et de taille de 12 bits puisque notre ARR est de 4249** 
 
 
-
-**Define Max Speed and UART Command Handling:**
-
-```c
-#define MAX_SPEED 1000  // Define the maximum allowed speed value
-#include <stdlib.h>     // For atoi function to convert strings to integers
-```
-
 **Implement Speed Control Function:**
-![tek00005](https://github.com/user-attachments/assets/7f763cc3-21b2-4325-bcd3-d457672c579a)
+
 
 ### Premiers tests
 
