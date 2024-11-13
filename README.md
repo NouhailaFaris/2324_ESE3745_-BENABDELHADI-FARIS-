@@ -14,12 +14,16 @@
 
 ### Configuration: 
 
-![WhatsApp Image 2024-11-10 at 23 30 16 (2)](https://github.com/user-attachments/assets/b514a10b-1d94-467c-b1ad-75295994c149)
+![image](https://github.com/user-attachments/assets/925e4530-36b6-4f70-bfd5-cbdde80f60b4)
 
-![WhatsApp Image 2024-11-10 at 23 30 16 (1)](https://github.com/user-attachments/assets/359662c2-6f5b-4d97-bfbe-dd428f59164c)
 
-![WhatsApp Image 2024-11-10 at 23 30 16](https://github.com/user-attachments/assets/aa8efdfd-d0e5-4a8b-87b0-7d24e0c69718)
+![image](https://github.com/user-attachments/assets/910905ab-f8c8-4dd9-a80b-ec3a33059a13)
 
+
+![image](https://github.com/user-attachments/assets/d9921aea-ffcd-4d8b-a18b-f21fb6a8bed7)
+
+
+![image](https://github.com/user-attachments/assets/d7c1c816-c5dd-4e8c-b8aa-2943b5575536)
 
 ### Affichage sur l'oscilloscope;
 
