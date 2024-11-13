@@ -25,11 +25,11 @@
 
 ![image](https://github.com/user-attachments/assets/d7c1c816-c5dd-4e8c-b8aa-2943b5575536)
 
-> Calcul temp_mort:
+Calcul temp_mort:
 
-1/170MHZ = 5.88ns = 1TIC
+> 1/170MHZ = 5.88ns = 1TIC
 
-100ns/5.88 ns = 17 TIC 
+> 100ns/5.88 ns = 17 TIC 
 
 
 ### Affichage sur l'oscilloscope;
