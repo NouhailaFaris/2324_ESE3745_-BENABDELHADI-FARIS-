@@ -95,24 +95,10 @@ Courants de phase du moteur : Courants traversant les phases du moteur. Ces cour
 
 Courant du bus (VBus) : Total consommé par l'ensemble du système (utile pour diagnostiquer les surcharges).
 
-```
-I 
-mesur 
-e
-ˊ
- 
-​
- = 
-Sensibilit 
-e
-ˊ
- 
-V 
-sortie
-​
- −V 
-offset
-​```
+$$
+I_{\text{mesuré}} = \text{Sensibilité} \times (V_{\text{sortie}} - V_{\text{offset}})
+$$
+
  
 ​
  
