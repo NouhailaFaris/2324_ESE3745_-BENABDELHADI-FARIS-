@@ -95,26 +95,7 @@ Courants de phase du moteur : Courants traversant les phases du moteur. Ces cour
 
 Courant du bus (VBus) : Total consommé par l'ensemble du système (utile pour diagnostiquer les surcharges).
 
-Définir les fonctions de transfert des capteurs de courant
-Les capteurs de courant (par exemple, effet Hall) possèdent des caractéristiques définies dans leur datasheet. Voici une approche générique :
-
-Plage de mesure : Exemple ±20 A.
-Sensibilité : Exemple 100 mV/A.
-Offset : Exemple 2,5 V pour 0 A.
-Fonction de transfert pour un capteur standard :
-𝐼
-mesur
-e
-ˊ
-=
-𝑉
-sortie
-−
-𝑉
-offset
-Sensibilit
-e
-ˊ
+```
 I 
 mesur 
 e
@@ -131,42 +112,11 @@ sortie
 ​
  −V 
 offset
-​
+​```
  
 ​
  
-Exemple pour un ACS712-20A :
 
-𝑉
-offset
-=
-2.5
- 
-V
-V 
-offset
-​
- =2.5V
-Sensibilité = 
-100
- 
-mV/A
-100mV/A
-𝐼
-=
-𝑉
-sortie
-−
-2.5
-0.1
-I= 
-0.1
-V 
-sortie
-​
- −2.5
-​
- 
 
 
 
