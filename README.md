@@ -89,5 +89,10 @@ float Convert_To_Current(uint32_t adcValue) {
 }
 ```
 
+1. Définir les courants à mesurer
+
+Courants de phase du moteur : Courants traversant les phases du moteur. Ces courants sont essentiels pour surveiller la performance et l'état du moteur.
+Courant du bus (VBus) : Total consommé par l'ensemble du système (utile pour diagnostiquer les surcharges).
+
 
 
