@@ -89,21 +89,51 @@ float Convert_To_Current(uint32_t adcValue) {
 }
 ```
 
-1. Définir les courants à mesurer
+## 1. Définir les courants à mesurer
 
 Courants de phase du moteur : Courants traversant les phases du moteur. Ces courants sont essentiels pour surveiller la performance et l'état du moteur.
 
 Courant du bus (VBus) : Total consommé par l'ensemble du système (utile pour diagnostiquer les surcharges).
 
+## 2. Définir les fonctions de transfert des capteurs de courant
+
+
 $$
 I_{\text{mesuré}} = \text{Sensibilité} \times (V_{\text{sortie}} - V_{\text{offset}})
 $$
 
- 
+
+Voffset = 2.5V
+
+Sensibilité = 100mV/A
 ​
- 
+$$
+I_{\text{mesuré}} = 0.1 \times (V_{\text{sortie}} - 2.5)
+$$
 
+## Pins STM32 utilisés
 
+PA0 : Connecté à ADC2_IN1.
+
+PA1 : Connecté à ADC1_IN2.
+
+PB0 : Connecté à ADC1_IN15.
+
+## Première mesure avec ADC en Polling
+
+```c
+
+/* Mesure de courant avec ADC en mode Polling */
+HAL_ADC_Start(&hadc1); // Démarrer l'ADC
+if (HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY) == HAL_OK)
+{
+    uint32_t adc_value = HAL_ADC_GetValue(&hadc1);
+    float current = (adc_value * 3.3 / 4096 - 2.5) / 0.1; // Ajustez selon le capteur
+    printf("Current: %.2f A\r\n", current);
+}
+HAL_ADC_Stop(&hadc1);
+
+```
 
 
 
