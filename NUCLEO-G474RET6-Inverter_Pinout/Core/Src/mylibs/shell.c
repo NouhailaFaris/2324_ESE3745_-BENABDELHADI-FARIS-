@@ -47,13 +47,13 @@ void Shell_Init(void){
 void SpeedCommand(int speedValue) {
     // Limite la valeur de speed à la vitesse maximale autorisée
     if (speedValue > MAX_SPEED) {
-    	//speedValue = 0;
+
     } else if (speedValue < 0) {
 
         speedValue = 0; // Assure que la valeur minimale est 0
     }
 
-   /* // Définir le pas d'incrémentation et la durée de la montée progressive
+   /*// Définir le pas d'incrémentation et la durée de la montée progressive
         int step = 10; // Pas d'incrémentation de la vitesse
         int delayMs = 50; // Délai entre chaque incrément en millisecondes
 
