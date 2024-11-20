@@ -16,6 +16,8 @@
 #define ASCII_CR 0x0D			// CR = carriage return, retour chariot
 #define ASCII_BACK 0x08			// BACK = Backspace
 
+#define ADC_BUFF_SIZE 1
+
 void Shell_Init(void);
 void Shell_Loop(void);
 

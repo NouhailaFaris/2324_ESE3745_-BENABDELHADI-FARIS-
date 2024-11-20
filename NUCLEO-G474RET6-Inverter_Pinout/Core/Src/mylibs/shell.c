@@ -13,7 +13,14 @@
 #include "adc.h"
 
 
+
+
 #define MAX_SPEED 1000
+#define SENSITIVITY 0.05 // 50 mV/A
+#define VREF 3.3         // Référence de tension ADC
+#define OFFSET 2.5       // Offset en volts
+#define ADC_MAX_VALUE 4096.0 // Résolution ADC 12 bits
+
 uint8_t prompt[]="user@Nucleo-STM32G474RET6>>";
 uint8_t started[]=
 		"\r\n*-----------------------------*"
@@ -27,7 +34,8 @@ uint8_t brian[]="Brian is in the kitchen\r\n";
 uint8_t uartRxReceived;
 uint8_t uartRxBuffer[UART_RX_BUFFER_SIZE];
 uint8_t uartTxBuffer[UART_TX_BUFFER_SIZE];
-
+uint16_t pData[ADC_BUFF_SIZE];
+uint16_t adc_value = 0;
 char	 	cmdBuffer[CMD_BUFFER_SIZE];
 int 		idx_cmd;
 char* 		argv[MAX_ARGS];
@@ -35,6 +43,7 @@ int		 	argc = 0;
 char*		token;
 int 		newCmdReady = 0;
 int currentSpeed = 0;  // Vitesse actuelle du moteur
+float current=0;
 
 void Shell_Init(void){
 	memset(argv, 0, MAX_ARGS * sizeof(char*));
@@ -56,24 +65,6 @@ void SpeedCommand(int speedValue) {
 		speedValue = 0; // Assure que la valeur minimale est 0
 	}
 
-	/*// Définir le pas d'incrémentation et la durée de la montée progressive
-        int step = 10; // Pas d'incrémentation de la vitesse
-        int delayMs = 50; // Délai entre chaque incrément en millisecondes
-
-        // Montée progressive vers la vitesse cible
-        while (currentSpeed !=speedValue) {
-            if (currentSpeed < speedValue) {
-                currentSpeed += step;
-                if (currentSpeed > speedValue) {
-                    currentSpeed = speedValue;
-                }
-            } else {
-                currentSpeed -= step;
-                if (currentSpeed < speedValue) {
-                    currentSpeed = speedValue;
-                }
-            }*/
-	// Calcule la valeur de PWM correspondante
 	uint32_t pulseValue1 = (uint32_t)((speedValue * __HAL_TIM_GET_AUTORELOAD(&htim1)) / MAX_SPEED);
 	uint32_t pulseValue2= (uint32_t)(((MAX_SPEED-speedValue) * __HAL_TIM_GET_AUTORELOAD(&htim1)) / MAX_SPEED);
 	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pulseValue1);
@@ -89,36 +80,40 @@ void SpeedCommand(int speedValue) {
 }
 float read_current_polling()
 {
-	uint32_t adc_value = 0;
-	double V = 0;
-	double I = 0;
-	double sensibilité = 0.05;
-	double VREF=3.3;
-	double ADC_MAX_Value =4096.0;
-	HAL_ADC_Start(&hadc1);
+	HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED); // Calibration
+	    HAL_ADC_Start(&hadc1);
 
-	if (HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY) == HAL_OK)
-	{
+	    if (HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY) == HAL_OK)
+	    {
+	        adc_value = HAL_ADC_GetValue(&hadc1); // Lire la valeur brute
+	        double voltage = (adc_value * VREF) / ADC_MAX_VALUE; // Conversion en tension
+	        double current = (voltage - 1.65) / SENSITIVITY;   // Conversion en courant
 
-		adc_value = HAL_ADC_GetValue(&hadc1);
-		//snprintf((char *)uartTxBuffer, sizeof(uartTxBuffer), "\r\nADC value: %.2f\r\n", (int)adc_value);
-		//HAL_UART_Transmit(&huart2, uartTxBuffer, strlen((char *)uartTxBuffer), HAL_MAX_DELAY);
-		printf("\r\nADC value: %d\r\n", adc_value);
+	        printf("\r\nRAW ADC value: %d\r\n", adc_value);
 
+	        printf("Current: %.3f A\r\n", current);
 
-		V= (adc_value * VREF) / ADC_MAX_Value;
+	        HAL_ADC_Stop(&hadc1);
+	        return (float)current;
+	    }
 
-		I= (V - VREF/2) / (sensibilité);
-		printf("\r\nMeasured current: %.2f A\r\n", I);
-	}
+	    HAL_ADC_Stop(&hadc1);
+	    return 0.0f;
 
-	// 6. Arrêter l'ADC
-	HAL_ADC_Stop(&hadc1);
-
-	// Retourner la valeur mesurée du courant
-	return (float)I;
 }
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
+{
+    if (hadc->Instance == ADC1)
+    {
+        adc_value = pData[0];
+        float voltage = (adc_value * VREF) / ADC_MAX_VALUE;
+        current = (voltage - 1.65) / SENSITIVITY;
 
+        //printf("\r\nDMA ADC value: %d\r\n", adc_value);
+        //printf("Current: %.3f A\r\n", current);
+        HAL_ADC_Start_DMA(hadc, pData, ADC_BUFF_SIZE);
+    }
+}
 
 
 //stop function
@@ -188,8 +183,8 @@ void Shell_Loop(void){
 
 	if (newCmdReady) {
 		if (strcmp(argv[0], "current") == 0) {
-			float currentValue = read_current_polling();
-			snprintf((char *)uartTxBuffer, UART_TX_BUFFER_SIZE, "Current: %.2f A\r\n", currentValue);
+			//float currentValue = read_current_polling();
+			snprintf((char *)uartTxBuffer, UART_TX_BUFFER_SIZE, "Current: %.2f A\r\n", current);
 			HAL_UART_Transmit(&huart2, uartTxBuffer, strlen((char *)uartTxBuffer), HAL_MAX_DELAY);
 		}
 		else if (strcmp(argv[0], "WhereisBrian?") == 0) {

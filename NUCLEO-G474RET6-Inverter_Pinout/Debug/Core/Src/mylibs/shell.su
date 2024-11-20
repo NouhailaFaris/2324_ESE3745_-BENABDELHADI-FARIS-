@@ -1,7 +1,8 @@
-../Core/Src/mylibs/shell.c:39:6:Shell_Init	8	static
-../Core/Src/mylibs/shell.c:50:6:SpeedCommand	24	static
-../Core/Src/mylibs/shell.c:90:7:read_current_polling	56	static
-../Core/Src/mylibs/shell.c:125:6:StopMotor	8	static
-../Core/Src/mylibs/shell.c:140:6:StartMotor	16	static
-../Core/Src/mylibs/shell.c:159:6:Shell_Loop	32	static
-../Core/Src/mylibs/shell.c:227:6:HAL_UART_RxCpltCallback	16	static
+../Core/Src/mylibs/shell.c:48:6:Shell_Init	8	static
+../Core/Src/mylibs/shell.c:59:6:SpeedCommand	24	static
+../Core/Src/mylibs/shell.c:81:7:read_current_polling	24	static
+../Core/Src/mylibs/shell.c:104:6:HAL_ADC_ConvCpltCallback	24	static
+../Core/Src/mylibs/shell.c:120:6:StopMotor	8	static
+../Core/Src/mylibs/shell.c:135:6:StartMotor	16	static
+../Core/Src/mylibs/shell.c:154:6:Shell_Loop	24	static
+../Core/Src/mylibs/shell.c:222:6:HAL_UART_RxCpltCallback	16	static
