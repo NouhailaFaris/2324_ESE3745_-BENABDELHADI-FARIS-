@@ -54,9 +54,86 @@ Calcul temp_mort:
 **Rapport cyclique de 50%:**
 **Rapport cyclique de 70%:**
 
+![image](https://github.com/user-attachments/assets/47902732-debd-49c1-93e5-7f705805d88d)
+![image](https://github.com/user-attachments/assets/6d21f4cc-4933-4f6f-938e-cdb3d77f81e8)
+
+
 ## TP2
+
+# Objectif
 
 - Commande start : permet de fixer le rapport cyclique à 50% (vitesse nulle) et d'activer la génération des pwm (HAL_TIM_PWM_Start et HAL_TIMEx_PWMN_Start),
 - Commande stop : permet de désactiver la génération des PWM.
 - Commande speed XXXX : permet de définir le rapport cyclique à XXXX/PWM_MAX, mais afin de réduire l'appel à courant, vous devez établir une montée progressive à cette vitesse en quelques secondes. Vous pouvez effectuer une rampe entre la valeur actuelle et la valeur 4-4-cible avec un incrément bien réfléchi de la PWM à un intervalle de temps régulier. Par la suite votre asservissement fera cela tout seul.
+
+![image](https://github.com/user-attachments/assets/a806a30b-4816-44bc-984b-0dcc3df06941)
+
+sensibilité = 50mV/A
+convertisseur sur 12 bits
+
+**Implémenter la lecture ADC en Polling**
+```c
+uint32_t Read_Current(void) {
+    uint32_t adcValue = 0;
+    HAL_ADC_Start(&hadc1);
+    if (HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY) == HAL_OK) {
+        adcValue = HAL_ADC_GetValue(&hadc1);
+    }
+    HAL_ADC_Stop(&hadc1);
+    return adcValue;
+}
+float Convert_To_Current(uint32_t adcValue) {
+    float voltage = (adcValue * 3.3f) / 4095; // Conversion en tension
+    float current = (voltage - 1.65f) / 0.066f; // Exemple pour un capteur à effet Hall (sensibilité : 66 mV/A)
+    return current;
+}
+```
+
+## 1. Définir les courants à mesurer
+
+Courants de phase du moteur : Courants traversant les phases du moteur. Ces courants sont essentiels pour surveiller la performance et l'état du moteur.
+
+Courant du bus (VBus) : Total consommé par l'ensemble du système (utile pour diagnostiquer les surcharges).
+
+## 2. Définir les fonctions de transfert des capteurs de courant
+
+
+$$
+I_{\text{mesuré}} = \text{Sensibilité} \times (V_{\text{sortie}} - V_{\text{offset}})
+$$
+
+
+Voffset = 2.5V
+
+Sensibilité = 100mV/A
+​
+$$
+I_{\text{mesuré}} = 0.1 \times (V_{\text{sortie}} - 2.5)
+$$
+
+## Pins STM32 utilisés
+
+PA0 : Connecté à ADC2_IN1.
+
+PA1 : Connecté à ADC1_IN2.
+
+PB0 : Connecté à ADC1_IN15.
+
+## Première mesure avec ADC en Polling
+
+```c
+
+/* Mesure de courant avec ADC en mode Polling */
+HAL_ADC_Start(&hadc1); // Démarrer l'ADC
+if (HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY) == HAL_OK)
+{
+    uint32_t adc_value = HAL_ADC_GetValue(&hadc1);
+    float current = (adc_value * 3.3 / 4096 - 2.5) / 0.1; // Ajustez selon le capteur
+    printf("Current: %.2f A\r\n", current);
+}
+HAL_ADC_Stop(&hadc1);
+
+```
+
+
 
