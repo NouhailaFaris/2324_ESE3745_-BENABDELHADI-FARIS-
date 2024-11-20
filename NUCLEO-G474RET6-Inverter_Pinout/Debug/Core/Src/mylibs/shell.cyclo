@@ -1,6 +1,7 @@
-../Core/Src/mylibs/shell.c:36:6:Shell_Init	1
-../Core/Src/mylibs/shell.c:47:6:SpeedCommand	4
-../Core/Src/mylibs/shell.c:89:6:StopMotor	1
-../Core/Src/mylibs/shell.c:104:6:StartMotor	1
-../Core/Src/mylibs/shell.c:123:6:Shell_Loop	12
-../Core/Src/mylibs/shell.c:186:6:HAL_UART_RxCpltCallback	1
+../Core/Src/mylibs/shell.c:39:6:Shell_Init	1
+../Core/Src/mylibs/shell.c:50:6:SpeedCommand	4
+../Core/Src/mylibs/shell.c:90:7:read_current_polling	2
+../Core/Src/mylibs/shell.c:125:6:StopMotor	1
+../Core/Src/mylibs/shell.c:140:6:StartMotor	1
+../Core/Src/mylibs/shell.c:159:6:Shell_Loop	13
+../Core/Src/mylibs/shell.c:227:6:HAL_UART_RxCpltCallback	1
