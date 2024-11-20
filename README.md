@@ -139,3 +139,8 @@ HAL_ADC_Stop(&hadc1);
 ![image](https://github.com/user-attachments/assets/b226b534-7d70-46fb-a99e-06d89a64d02e)
 
 
+### DMA
+![image](https://github.com/user-attachments/assets/48eeba79-0ef0-4935-b0c6-686ea444cd86)
+
+
+
