@@ -134,6 +134,8 @@ if (HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY) == HAL_OK)
 HAL_ADC_Stop(&hadc1);
 
 ```
+### Pooling:
 
+![image](https://github.com/user-attachments/assets/b226b534-7d70-46fb-a99e-06d89a64d02e)
 
 
