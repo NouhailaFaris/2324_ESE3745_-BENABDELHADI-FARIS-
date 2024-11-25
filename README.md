@@ -83,8 +83,6 @@ Le problème observé se manifeste lors du changement du rapport cyclique de 50 
 
 On peut remarquer que la détection des commandes ainsi que la gestion des erreurs ont été implémentées, permettant de traiter les commandes incorrectes ou les dépassements de vitesse en dehors de la plage autorisée de 0 % à 100 %.
 
-sensibilité = 50mV/A
-convertisseur sur 12 bits
 
 **Implémenter la lecture ADC en Polling**
 ```c
@@ -120,7 +118,7 @@ $$
 
 Voffset = 2.5V
 
-Sensibilité = 100mV/A
+Sensibilité = 50mV/A
 ​
 $$
 I_{\text{mesuré}} = 0.1 \times (V_{\text{sortie}} - 2.5)
