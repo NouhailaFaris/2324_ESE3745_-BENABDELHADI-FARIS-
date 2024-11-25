@@ -50,6 +50,10 @@ On a 100 ns de temp mort comme indiqué dans la photo
 
 **Implement Speed Control Function:**
 
+### Remarque
+
+Tous les fonctions coder sont dans le shell.c
+
 ![image](https://github.com/user-attachments/assets/c81dcf9d-0823-4eab-9fe1-2cb77fabdc8f)
 
 #### SPEED 600:
