@@ -119,6 +119,7 @@ $$
 Voffset = 2.5V
 
 Sensibilité = 50mV/A
+
 ​
 $$
 I_{\text{mesuré}} = 0.1 \times (V_{\text{sortie}} - 2.5)
