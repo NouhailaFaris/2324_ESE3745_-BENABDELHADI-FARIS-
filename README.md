@@ -81,6 +81,8 @@ Le problème observé se manifeste lors du changement du rapport cyclique de 50 
 
 ![image](https://github.com/user-attachments/assets/a806a30b-4816-44bc-984b-0dcc3df06941)
 
+On peut remarquer que la détection des commandes ainsi que la gestion des erreurs ont été implémentées, permettant de traiter les commandes incorrectes ou les dépassements de vitesse en dehors de la plage autorisée de 0 % à 100 %.
+
 sensibilité = 50mV/A
 convertisseur sur 12 bits
 
