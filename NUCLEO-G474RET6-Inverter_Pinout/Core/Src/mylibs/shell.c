@@ -15,8 +15,8 @@
 
 
 
-#define MAX_SPEED 1000
-#define SENSITIVITY 0.05 // 50 mV/A
+#define MAX_SPEED 1000 // Vitesse maximale du moteur
+#define SENSITIVITY 0.05 // Sensibilité (50 mV/A)
 #define VREF 3.3         // Référence de tension ADC
 #define OFFSET 2.5       // Offset en volts
 #define ADC_MAX_VALUE 4096.0 // Résolution ADC 12 bits
@@ -41,16 +41,21 @@ int 		idx_cmd;
 char* 		argv[MAX_ARGS];
 int		 	argc = 0;
 char*		token;
-int 		newCmdReady = 0;
+int 		newCmdReady = 0;  // Flag pour indiquer si une nouvelle commande est prête
 int currentSpeed = 0;  // Vitesse actuelle du moteur
-float current=0;
+float current=0; // Valeur du courant
+
+/*
+ * Initialisation du shell et du périphérique UART
+ */
 
 void Shell_Init(void){
+	// Initialisation des buffers
 	memset(argv, 0, MAX_ARGS * sizeof(char*));
 	memset(cmdBuffer, 0, CMD_BUFFER_SIZE * sizeof(char));
 	memset(uartRxBuffer, 0, UART_RX_BUFFER_SIZE * sizeof(char));
 	memset(uartTxBuffer, 0, UART_TX_BUFFER_SIZE * sizeof(char));
-
+        // Démarre la réception UART en mode interruption
 	HAL_UART_Receive_IT(&huart2, uartRxBuffer, UART_RX_BUFFER_SIZE);
 	HAL_UART_Transmit(&huart2, started, strlen((char *)started), HAL_MAX_DELAY);
 	HAL_UART_Transmit(&huart2, prompt, strlen((char *)prompt), HAL_MAX_DELAY);
@@ -59,16 +64,17 @@ void Shell_Init(void){
 void SpeedCommand(int speedValue) {
 	// Limite la valeur de speed à la vitesse maximale autorisée
 	if (speedValue > MAX_SPEED) {
-
+	// Si la vitesse est trop élevée, on ne fait rien ou on peut renvoyer un message d'erreur
 	} else if (speedValue < 0) {
 
 		speedValue = 0; // Assure que la valeur minimale est 0
 	}
-
+	// Calcul des valeurs de comparaison pour le PWM
 	uint32_t pulseValue1 = (uint32_t)((speedValue * __HAL_TIM_GET_AUTORELOAD(&htim1)) / MAX_SPEED);
 	uint32_t pulseValue2= (uint32_t)(((MAX_SPEED-speedValue) * __HAL_TIM_GET_AUTORELOAD(&htim1)) / MAX_SPEED);
 	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pulseValue1);
 	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, pulseValue2);
+	// Envoi d'un message de confirmation via UART
 	if (speedValue > MAX_SPEED) {
 		snprintf((char *)uartTxBuffer, sizeof(uartTxBuffer), "La vitesse a depassé la limite", speedValue);
 		HAL_UART_Transmit(&huart2, uartTxBuffer, strlen((char *)uartTxBuffer), HAL_MAX_DELAY);
@@ -78,29 +84,36 @@ void SpeedCommand(int speedValue) {
 		HAL_UART_Transmit(&huart2, uartTxBuffer, strlen((char *)uartTxBuffer), HAL_MAX_DELAY);
 	}
 }
+/*
+ * Fonction de lecture du courant en utilisant l'ADC
+ */
 float read_current_polling()
 {
+	// Démarre la calibration de l'ADC
 	HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED); // Calibration
 	    HAL_ADC_Start(&hadc1);
-
+	// Attente de la conversion et lecture de la valeur ADC
 	    if (HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY) == HAL_OK)
 	    {
 	        adc_value = HAL_ADC_GetValue(&hadc1); // Lire la valeur brute
 	        double voltage = (adc_value * VREF) / ADC_MAX_VALUE; // Conversion en tension
 	        double current = (voltage - 1.65) / SENSITIVITY;   // Conversion en courant
-
+	// Affichage de la valeur brute et du courant
 	        printf("\r\nRAW ADC value: %d\r\n", adc_value);
 
 	        printf("Current: %.3f A\r\n", current);
 
-	        HAL_ADC_Stop(&hadc1);
+	        HAL_ADC_Stop(&hadc1);// Arrêt de l'ADC
 	        return (float)current;
 	    }
 
-	    HAL_ADC_Stop(&hadc1);
-	    return 0.0f;
+	    HAL_ADC_Stop(&hadc1); // Arrêt de l'ADC si la conversion échoue
+	    return 0.0f;// Retourne 0 si la lecture échoue
 
 }
+/*
+ * Callback de conversion ADC complète pour DMA
+ */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
     if (hadc->Instance == ADC1)
@@ -108,9 +121,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
         adc_value = pData[0];
         float voltage = (adc_value * VREF) / ADC_MAX_VALUE;
         current = (voltage - 1.65) / SENSITIVITY;
-
-        //printf("\r\nDMA ADC value: %d\r\n", adc_value);
-        //printf("Current: %.3f A\r\n", current);
+ 	// Démarrage de l'ADC en mode DMA
+        
         HAL_ADC_Start_DMA(hadc, pData, ADC_BUFF_SIZE);
     }
 }
@@ -131,7 +143,7 @@ void StopMotor(void) {
 	HAL_UART_Receive_IT(&huart2, uartRxBuffer, UART_RX_BUFFER_SIZE);
 }
 
-//Start function
+//Start function avec un cycle  de 50%
 void StartMotor(void) {
 	uint32_t midDutyCycle = __HAL_TIM_GET_AUTORELOAD(&htim1) / 2;
 
@@ -150,15 +162,18 @@ void StartMotor(void) {
 	// Relancer la réception UART
 	HAL_UART_Receive_IT(&huart2, uartRxBuffer, UART_RX_BUFFER_SIZE);
 }
+/*
+ * Boucle principale pour le shell (traitement des commandes reçues)
+ */
 
 void Shell_Loop(void){
 	if(uartRxReceived){
 		switch(uartRxBuffer[0]){
 		case ASCII_CR: // Nouvelle ligne, instruction à traiter
 			HAL_UART_Transmit(&huart2, newline, sizeof(newline), HAL_MAX_DELAY);
-			cmdBuffer[idx_cmd] = '\0';
+			cmdBuffer[idx_cmd] = '\0'; // Terminer la commande
 			argc = 0;
-			token = strtok(cmdBuffer, " ");
+			token = strtok(cmdBuffer, " ");// Séparer la commande et les arguments
 			while(token!=NULL){
 				argv[argc++] = token;
 				token = strtok(NULL, " ");
@@ -180,10 +195,10 @@ void Shell_Loop(void){
 		uartRxReceived = 0;
 	}
 
-
+	// Traitement des commandes
 	if (newCmdReady) {
 		if (strcmp(argv[0], "current") == 0) {
-			//float currentValue = read_current_polling();
+			// Afficher la valeur du courant
 			snprintf((char *)uartTxBuffer, UART_TX_BUFFER_SIZE, "Current: %.2f A\r\n", current);
 			HAL_UART_Transmit(&huart2, uartTxBuffer, strlen((char *)uartTxBuffer), HAL_MAX_DELAY);
 		}
@@ -194,25 +209,33 @@ void Shell_Loop(void){
 					"Available commands:\r\n- WhereisBrian?\r\n- help\r\n- start\r\n- stop\r\n- speed <value>\r\n");
 			HAL_UART_Transmit(&huart2, uartTxBuffer, uartTxStringLength, HAL_MAX_DELAY);
 		} else if (strcmp(argv[0], "start") == 0) {
+			// Si la commande est "start", on démarre le moteur
 			StartMotor();
+			// Relance la réception UART pour attendre de nouvelles commandes
 			HAL_UART_Receive_IT(&huart2, uartRxBuffer, UART_RX_BUFFER_SIZE); // Relancer la réception UART
 
 		} else if (strcmp(argv[0], "stop") == 0) {
+			// Si la commande est "stop", on arrête le moteur
 			StopMotor();
+			// Relance la réception UART pour attendre de nouvelles commandes
 			HAL_UART_Receive_IT(&huart2, uartRxBuffer, UART_RX_BUFFER_SIZE); // Relancer la réception UART
 
 		} else if (strcmp(argv[0], "speed") == 0) {
+			// Si la commande est "speed", on ajuste la vitesse du moteur
 			if (argc > 1) {
-				int speedValue = atoi(argv[1]);
-				SpeedCommand(speedValue);
+			// Si un argument est passé (la valeur de la vitesse), on le convertit en entier et on applique la commande de vitesse
+				int speedValue = atoi(argv[1]);// Convertir l'argument en entier
+				SpeedCommand(speedValue); // Appliquer la commande de vitesse
 			} else {
 				snprintf((char *)uartTxBuffer, UART_TX_BUFFER_SIZE, "Usage: speed <value>\r\n");
 				HAL_UART_Transmit(&huart2, uartTxBuffer, strlen((char *)uartTxBuffer), HAL_MAX_DELAY);
 			}
 		} else {
+			
 			HAL_UART_Transmit(&huart2, cmdNotFound, sizeof(cmdNotFound), HAL_MAX_DELAY);
 		}
 		HAL_UART_Transmit(&huart2, prompt, sizeof(prompt), HAL_MAX_DELAY);
+		// Réinitialisation du flag indiquant qu'une nouvelle commande est prête
 		newCmdReady = 0;
 	}
 
