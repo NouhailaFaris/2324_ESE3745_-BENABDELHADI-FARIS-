@@ -163,5 +163,8 @@ Nous avons conservé le même paramétrage en mode Polling, tout en ajoutant le 
 ### DMA
 ![image](https://github.com/user-attachments/assets/48eeba79-0ef0-4935-b0c6-686ea444cd86)
 
+Notre **DMA** est synchronisé avec les PWM, ce qui permet de démarrer le moteur et d'effectuer les mesures de courant. 
+
+Il est également possible de constater une variation significative des valeurs en modifiant la vitesse du moteur. Les tests ont été réalisés avec le moteur alimenté et contrôlé via le shell.
 
 
