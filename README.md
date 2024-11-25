@@ -67,11 +67,11 @@ Tous les fonctions coder sont dans le shell.c
 
 ### Premiers tests
 
-**Rapport cyclique de 50%:**
+**Test avec un rapport cyclique de 50%:**
 
 ![image](https://github.com/user-attachments/assets/47902732-debd-49c1-93e5-7f705805d88d)
 
-**Rapport cyclique de 70%:**
+**Test avec un rapport cyclique de 70%:**
 
 ![image](https://github.com/user-attachments/assets/6d21f4cc-4933-4f6f-938e-cdb3d77f81e8)
 
@@ -86,6 +86,8 @@ Le problème observé se manifeste lors du changement du rapport cyclique de 50 
 - Commande start : permet de fixer le rapport cyclique à 50% (vitesse nulle) et d'activer la génération des pwm (HAL_TIM_PWM_Start et HAL_TIMEx_PWMN_Start),
 - Commande stop : permet de désactiver la génération des PWM.
 - Commande speed XXXX : permet de définir le rapport cyclique à XXXX/PWM_MAX, mais afin de réduire l'appel à courant, vous devez établir une montée progressive à cette vitesse en quelques secondes. Vous pouvez effectuer une rampe entre la valeur actuelle et la valeur 4-4-cible avec un incrément bien réfléchi de la PWM à un intervalle de temps régulier. Par la suite votre asservissement fera cela tout seul.
+
+**Test des commandes Start,Stop et Speed avec la gestion d'erreur**
 
 ![image](https://github.com/user-attachments/assets/a806a30b-4816-44bc-984b-0dcc3df06941)
 
