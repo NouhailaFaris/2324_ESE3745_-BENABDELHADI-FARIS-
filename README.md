@@ -49,6 +49,15 @@ Calcul temp_mort:
 
 ![image](https://github.com/user-attachments/assets/c81dcf9d-0823-4eab-9fe1-2cb77fabdc8f)
 
+#### SPEED 600:
+
+![tek00006](https://github.com/user-attachments/assets/32a44729-d139-4b01-9780-dbadf6a7b399)
+
+#### SPEED 200:
+
+![tek00005](https://github.com/user-attachments/assets/7f763cc3-21b2-4325-bcd3-d457672c579a)
+
+
 ### Premiers tests
 
 **Rapport cyclique de 50%:**
