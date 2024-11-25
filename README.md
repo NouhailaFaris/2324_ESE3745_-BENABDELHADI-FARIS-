@@ -84,24 +84,6 @@ Le problème observé se manifeste lors du changement du rapport cyclique de 50 
 On peut remarquer que la détection des commandes ainsi que la gestion des erreurs ont été implémentées, permettant de traiter les commandes incorrectes ou les dépassements de vitesse en dehors de la plage autorisée de 0 % à 100 %.
 
 
-**Implémenter la lecture ADC en Polling**
-```c
-uint32_t Read_Current(void) {
-    uint32_t adcValue = 0;
-    HAL_ADC_Start(&hadc1);
-    if (HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY) == HAL_OK) {
-        adcValue = HAL_ADC_GetValue(&hadc1);
-    }
-    HAL_ADC_Stop(&hadc1);
-    return adcValue;
-}
-float Convert_To_Current(uint32_t adcValue) {
-    float voltage = (adcValue * 3.3f) / 4095; // Conversion en tension
-    float current = (voltage - 1.65f) / 0.066f; // Exemple pour un capteur à effet Hall (sensibilité : 66 mV/A)
-    return current;
-}
-```
-
 ## 1. Définir les courants à mesurer
 
 Courants de phase du moteur : Courants traversant les phases du moteur. Ces courants sont essentiels pour surveiller la performance et l'état du moteur.
