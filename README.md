@@ -29,7 +29,9 @@ Calcul temp_mort:
 
 > 1/170MHZ = 5.88ns = 1TIC
 
-> 100ns/5.88 ns = 17 TIC 
+> 100ns/5.88 ns = 17 TIC
+
+Nous avons utilisé le mode **Center Aligned Mode 1** pour générer des signaux PWM déphasés de \( T/2 \). Ce mode permet de synchroniser les signaux PWM en ajustant la position des fronts montants et descendants de manière symétrique par rapport au centre de la période \( T \), facilitant ainsi la génération des déphasages souhaités.
 
 
 ### Affichage sur l'oscilloscope;
@@ -41,6 +43,7 @@ Calcul temp_mort:
 
 ![WhatsApp Image 2024-11-10 at 23 30 16 (4)](https://github.com/user-attachments/assets/9d382d9c-046c-437c-bd73-f88c91812ace)
 
+On a 100 ns de temp mort comme indiqué dans la photo
 
 **On peut Remarquer que notre PWM à 20KHZ et de taille de 12 bits puisque notre ARR est de 4249** 
 
@@ -98,12 +101,12 @@ I_{\text{mesuré}} = \text{Sensibilité} \times (V_{\text{sortie}} - V_{\text{of
 $$
 
 
-Voffset = 2.5V
+Voffset = 1.65V
 
 Sensibilité = 50mV/A
 
 $$
-I_{\text{mesuré}} = 0.05 \times (V_{\text{sortie}} - 2.5)
+I_{\text{mesuré}} = 0.05 \times (V_{\text{sortie}} - 1.65)
 $$
 
 
@@ -115,6 +118,10 @@ PA1 : Connecté à ADC1_IN2.
 
 PB0 : Connecté à ADC1_IN15.
 
+## Parametrage de L'ADC pour le Polling
+
+![image](https://github.com/user-attachments/assets/d8b288ca-c65c-4a1b-b4f3-1effe1e39e44)
+
 ## Première mesure avec ADC en Polling
 
 ```c
@@ -124,16 +131,34 @@ HAL_ADC_Start(&hadc1); // Démarrer l'ADC
 if (HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY) == HAL_OK)
 {
     uint32_t adc_value = HAL_ADC_GetValue(&hadc1);
-    float current = (adc_value * 3.3 / 4096 - 2.5) / 0.1; // Ajustez selon le capteur
+    float current = (adc_value * 3.3 / 4096 - 1.65) / 0.05; 
     printf("Current: %.2f A\r\n", current);
 }
 HAL_ADC_Stop(&hadc1);
 
 ```
-### Pooling:
+Equation Float Curent:
+
+-adc_value est la valeur capter de l'adc entre 0 et 4096
+
+-4096 sont les 12 bits du ADC 
+
+-Offset de 1.65V 
+
+-50mV de sensibilité
+
+-3.3V alimentation du STM32
+
+### Polling:
 
 ![image](https://github.com/user-attachments/assets/b226b534-7d70-46fb-a99e-06d89a64d02e)
 
+## Parametrage de L'ADC pour le DMA
+![image](https://github.com/user-attachments/assets/4133d95f-e7d6-4671-b329-3b51f33bad84)
+
+![image](https://github.com/user-attachments/assets/1b504c01-01af-49e5-94a6-141830313525)
+
+Nous avons conservé le même paramétrage en mode Polling, tout en ajoutant le **Timer 1 Trigger Output Event** pour générer des événements de synchronisation, ainsi que le paramétrage du **DMA** pour automatiser le transfert des données.
 
 ### DMA
 ![image](https://github.com/user-attachments/assets/48eeba79-0ef0-4935-b0c6-686ea444cd86)
