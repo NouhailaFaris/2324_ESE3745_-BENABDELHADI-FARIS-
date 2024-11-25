@@ -48,7 +48,7 @@ On a 100 ns de temp mort comme indiqué dans la photo
 **On peut Remarquer que notre PWM à 20KHZ et de taille de 12 bits puisque notre ARR est de 4249** 
 
 
-**Implement Speed Control Function:**
+## Implement Speed Control Function:
 
 ### Remarque
 
