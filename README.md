@@ -64,8 +64,12 @@ Calcul temp_mort:
 **Rapport cyclique de 70%:**
 
 ![image](https://github.com/user-attachments/assets/47902732-debd-49c1-93e5-7f705805d88d)
+
 ![image](https://github.com/user-attachments/assets/6d21f4cc-4933-4f6f-938e-cdb3d77f81e8)
 
+#### Remarque:
+
+Le problème observé se manifeste lors du changement du rapport cyclique de 50 % à 70 %, provoquant une montée brusque qui pourrait endommager le moteur ou la carte d'acquisition du projet.
 
 ## TP2
 
