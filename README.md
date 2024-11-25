@@ -121,9 +121,8 @@ Voffset = 2.5V
 Sensibilité = 50mV/A
 
 ​
-$$
-I_{\text{mesuré}} = 0.1 \times (V_{\text{sortie}} - 2.5)
-$$
+![Equation](https://latex.codecogs.com/png.latex?I_{\text{mesuré}}%20%3D%200.05%20%5Ctimes%20(V_{\text{sortie}}%20-%202.5))
+
 
 ## Pins STM32 utilisés
 
